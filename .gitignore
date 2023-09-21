@@ -1,0 +1,6 @@
+*.db
+conf/*.yaml
+.idea
+*.log
+
+
