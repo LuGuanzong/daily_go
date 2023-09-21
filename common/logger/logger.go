@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"os"
 )
 
 // InitLogger Init logrus logger.
@@ -13,6 +14,13 @@ func InitLogger() (*logrus.Logger, error) {
 
 	// 读取配置
 	conf := config.Conf.Log
+
+	// 初始化日志文件夹
+	folderPath := conf.Dir
+	err := os.MkdirAll(folderPath, os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
 
 	// 设置日志格式。
 	log.SetFormatter(&logrus.TextFormatter{
