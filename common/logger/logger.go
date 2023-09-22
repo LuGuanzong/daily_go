@@ -17,9 +17,12 @@ func InitLogger() (*logrus.Logger, error) {
 
 	// 初始化日志文件夹
 	folderPath := conf.Dir
-	err := os.MkdirAll(folderPath, os.ModePerm)
+	_, err := os.Stat(folderPath)
 	if err != nil {
-		panic(err)
+		err = os.MkdirAll(folderPath, os.ModePerm)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	// 设置日志格式。
