@@ -10,6 +10,7 @@ var Conf Config
 
 // LoadConfFromYaml 配置配置文件
 func LoadConfFromYaml(filename string) {
+	fmt.Printf("开始读取配置文件 %s", filename)
 	file, err := os.Open(filename)
 	if err != nil {
 		// 打log

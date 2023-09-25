@@ -4,6 +4,7 @@ import (
 	"daily_plan_go/common/logger"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
@@ -25,7 +26,7 @@ func (a *Api) addError(err error) {
 // MakeContext 设置http上下文
 func (a *Api) MakeContext(c *gin.Context) *Api {
 	a.Context = c
-	a.Logger, _ = logger.InitLogger()
+	a.Logger = logger.Log
 	a.apiInfoLog()
 	return a
 }
@@ -34,8 +35,7 @@ func (a *Api) apiInfoLog() {
 	a.Logger.WithFields(logrus.Fields{
 		"user_id":    "luguanzong",
 		"ip":         a.Context.Request.RemoteAddr,
-		"query":      "query",
-		"request_id": "ec2bf8e55a11474392f8867e92624e04",
+		"request_id": uuid.New(),
 	}).Info("请求信息")
 }
 

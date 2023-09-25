@@ -6,19 +6,13 @@ import (
 	"daily_plan_go/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/sirupsen/logrus"
 	"time"
 )
 
 var (
 	Db  *gorm.DB
-	log *logrus.Logger
 	err error
 )
-
-func init() {
-	log, _ = logger.InitLogger()
-}
 
 func InitDb(env string) error {
 	switch env {
@@ -43,7 +37,7 @@ func InitDb(env string) error {
 func autoMigrate() error {
 	err = Db.AutoMigrate(&models.User{}).Error
 	if err != nil {
-		log.Errorf("数据库迁移错误 err: %s", err.Error())
+		logger.Log.Errorf("数据库迁移错误 err: %s", err.Error())
 		return err
 	}
 	return nil
@@ -52,11 +46,11 @@ func autoMigrate() error {
 func sqlite() error {
 	Db, err = gorm.Open("sqlite3", config.Conf.Sqlite.Pwd)
 	if err != nil {
-		log.Errorf("初始化sqlite出错 err: %s", err.Error())
+		logger.Log.Errorf("初始化sqlite出错 err: %s", err.Error())
 		return err
 	}
 	if Db.Error != nil {
-		log.Errorf("数据库sqlite出错 err: %s", err.Error())
+		logger.Log.Errorf("数据库sqlite出错 err: %s", err.Error())
 		return Db.Error
 	}
 

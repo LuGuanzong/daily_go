@@ -1,6 +1,7 @@
 package main
 
 import (
+	"daily_plan_go/common/logger"
 	"daily_plan_go/config"
 	"daily_plan_go/dao"
 	"daily_plan_go/router"
@@ -15,6 +16,8 @@ func main() {
 	fmt.Println("use conf", *configFile)
 	config.LoadConfFromYaml(*configFile)
 	fmt.Println(" - 完成配置文件读取")
+
+	_ = logger.InitLogger()
 
 	_ = dao.InitDb(config.Conf.Basic.Env)
 	fmt.Println(" - 完成配置数据库")

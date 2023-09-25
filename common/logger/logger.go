@@ -5,49 +5,52 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/natefinch/lumberjack.v2"
-	"os"
 )
 
+var Log *logrus.Logger
+
 // InitLogger Init logrus logger.
-func InitLogger() (*logrus.Logger, error) {
-	var log = logrus.New()
+func InitLogger() error {
+	Log = logrus.New()
 
 	// 读取配置
 	conf := config.Conf.Log
 
 	// 初始化日志文件夹
-	folderPath := conf.Dir
-	_, err := os.Stat(folderPath)
-	if err != nil {
-		err = os.MkdirAll(folderPath, os.ModePerm)
-		if err != nil {
-			panic(err)
-		}
-	}
+	//folderPath := conf.Dir
+	//_, err := os.Stat(folderPath)
+	//fmt.Printf("conf %+v\n", conf)
+	//if err != nil {
+	//	fmt.Println("folderPath", folderPath)
+	//	err = os.MkdirAll(folderPath, os.ModePerm)
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//}
 
 	// 设置日志格式。
-	log.SetFormatter(&logrus.TextFormatter{
+	Log.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05.000",
 	})
 	switch conf.Level {
 	case "trace":
-		log.SetLevel(logrus.TraceLevel)
+		Log.SetLevel(logrus.TraceLevel)
 	case "debug":
-		log.SetLevel(logrus.DebugLevel)
+		Log.SetLevel(logrus.DebugLevel)
 	case "info":
-		log.SetLevel(logrus.InfoLevel)
+		Log.SetLevel(logrus.InfoLevel)
 	case "warn":
-		log.SetLevel(logrus.WarnLevel)
+		Log.SetLevel(logrus.WarnLevel)
 	case "error":
-		log.SetLevel(logrus.ErrorLevel)
+		Log.SetLevel(logrus.ErrorLevel)
 	case "fatal":
-		log.SetLevel(logrus.FatalLevel)
+		Log.SetLevel(logrus.FatalLevel)
 	case "panic":
-		log.SetLevel(logrus.PanicLevel)
+		Log.SetLevel(logrus.PanicLevel)
 	default:
-		return nil, fmt.Errorf("未配置日志级别")
+		return fmt.Errorf("未配置日志级别")
 	}
-	log.SetReportCaller(true) // 打印文件、行号和主调函数。
+	Log.SetReportCaller(true) // 打印文件、行号和主调函数。
 
 	// 实现日志滚动。
 	// Refer to https://www.cnblogs.com/jssyjam/p/11845475.html.
@@ -58,7 +61,7 @@ func InitLogger() (*logrus.Logger, error) {
 		MaxAge:     conf.MaxAge,                                   // 保留过期文件的最大时间间隔，单位是天。
 		LocalTime:  true,                                          // 是否使用本地时间来命名备份的日志。
 	}
-	log.SetOutput(logger)
+	Log.SetOutput(logger)
 
-	return log, nil
+	return nil
 }
