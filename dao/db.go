@@ -28,6 +28,7 @@ func InitDb(env string) error {
 	}
 
 	if err = autoMigrate(); err != nil {
+		logger.Log.Errorf("InitDb数据库迁移错误 err: %s", err.Error())
 		return err
 	}
 
@@ -35,9 +36,13 @@ func InitDb(env string) error {
 }
 
 func autoMigrate() error {
-	err = Db.AutoMigrate(&models.User{}).Error
+	err = Db.AutoMigrate(
+		&models.Users{},
+		&models.Templates{},
+		&models.Tasks{},
+	).Error
 	if err != nil {
-		logger.Log.Errorf("数据库迁移错误 err: %s", err.Error())
+		logger.Log.Errorf("autoMigrate数据库迁移错误 err: %s", err.Error())
 		return err
 	}
 	return nil

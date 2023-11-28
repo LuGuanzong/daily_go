@@ -2,9 +2,9 @@ package models
 
 import "github.com/jinzhu/gorm"
 
-type User struct {
+type Users struct {
 	gorm.Model
-	Name  string
-	Email string
-	Sex   bool
+	Phone    string `gorm:"column:phone;size:20;unique:true"`
+	Email    string `gorm:"column:email;size:256;unique:true"`
+	Password string `gorm:"column:password"`
 }
