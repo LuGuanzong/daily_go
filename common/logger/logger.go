@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/natefinch/lumberjack.v2"
+	"os"
 )
 
 var Log *logrus.Logger
@@ -17,16 +18,16 @@ func InitLogger() error {
 	conf := config.Conf.Log
 
 	// 初始化日志文件夹
-	//folderPath := conf.Dir
-	//_, err := os.Stat(folderPath)
-	//fmt.Printf("conf %+v\n", conf)
-	//if err != nil {
-	//	fmt.Println("folderPath", folderPath)
-	//	err = os.MkdirAll(folderPath, os.ModePerm)
-	//	if err != nil {
-	//		panic(err)
-	//	}
-	//}
+	folderPath := conf.Dir
+	_, err := os.Stat(folderPath)
+	fmt.Printf("conf %+v\n", conf)
+	if err != nil {
+		fmt.Println("folderPath", folderPath)
+		err = os.MkdirAll(folderPath, os.ModePerm)
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	// 设置日志格式。
 	Log.SetFormatter(&logrus.TextFormatter{

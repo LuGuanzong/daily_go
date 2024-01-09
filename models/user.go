@@ -2,7 +2,7 @@ package models
 
 import "github.com/jinzhu/gorm"
 
-type Users struct {
+type User struct {
 	gorm.Model
 	Name     string `json:"name" gorm:"column:name;unique;index"`
 	Phone    string `json:"phone" gorm:"column:phone;size:20;unique"`

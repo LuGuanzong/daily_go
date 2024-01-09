@@ -3,18 +3,18 @@ package dao
 import (
 	"daily_plan_go/common/logger"
 	"daily_plan_go/config"
-	"daily_plan_go/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"time"
 )
 
 var (
-	Db  *gorm.DB
-	err error
+	Db *gorm.DB
 )
 
 func InitDb(env string) error {
+	var err error
+
 	switch env {
 	case "dev":
 		err = sqlite()
@@ -27,28 +27,12 @@ func InitDb(env string) error {
 		return err
 	}
 
-	if err = autoMigrate(); err != nil {
-		logger.Log.Errorf("InitDb数据库迁移错误 err: %s", err.Error())
-		return err
-	}
-
-	return nil
-}
-
-func autoMigrate() error {
-	err = Db.AutoMigrate(
-		&models.Users{},
-		&models.Templates{},
-		&models.Tasks{},
-	).Error
-	if err != nil {
-		logger.Log.Errorf("autoMigrate数据库迁移错误 err: %s", err.Error())
-		return err
-	}
 	return nil
 }
 
 func sqlite() error {
+	var err error
+
 	Db, err = gorm.Open("sqlite3", config.Conf.Sqlite.Pwd)
 	if err != nil {
 		logger.Log.Errorf("初始化sqlite出错 err: %s", err.Error())
@@ -63,6 +47,8 @@ func sqlite() error {
 }
 
 func mysql() error {
+	var err error
+
 	Db, err = gorm.Open("sqlite", config.Conf.Sqlite.Pwd)
 	if err != nil {
 		// 打log

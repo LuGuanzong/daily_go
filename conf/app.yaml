@@ -1,0 +1,21 @@
+basic:
+  env: "dev" # dev prod
+  port: ":9999"
+log:
+  dir: "./logs"
+  filename: "daily_plan.log"
+  level: "info" # trace debug info warn error fatal panic
+  max_size: 100 # 日志文件最大 size, 单位是 MB
+  max_backups: 1 # 最大过期日志保留的个数
+  max_age: 30 # 保留过期文件的最大时间间隔,单位是天
+  compress: true # 是否需要压缩滚动日志, 使用的 gzip 压缩
+mysql:
+  host: "kk"
+  port: 3306
+  user: "zego"
+  password: "7l222222222r"
+  db: "eff_cluster"
+  db_pool_max_idle: 5
+  db_pool_max: 10
+sqlite:
+  pwd: "testDB.db"
