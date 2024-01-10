@@ -1,5 +1,5 @@
 basic:
-  env: "dev" # dev prod
+  env: "prod" # dev prod
   port: ":9999"
 log:
   dir: "./logs"
@@ -14,7 +14,7 @@ mysql:
   port: 32769
   user: "daily_manager"
   password: "daily_manager123"
-  db: "daily-web"
+  db: "daily"
   db_pool_max_idle: 5
   db_pool_max: 10
 sqlite:

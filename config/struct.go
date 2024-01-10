@@ -6,7 +6,6 @@ type basic struct {
 }
 
 type mysql struct {
-	Driver        string `json:"driver" yaml:"driver"`
 	Host          string `json:"host" yaml:"host"`
 	Port          int    `json:"port" yaml:"port"`
 	User          string `json:"user" yaml:"user"`

@@ -13,11 +13,12 @@ import (
 func main() {
 	configFile := flag.String("c", "./conf/app.yaml", "-c filname (default: ./conf/app.yaml)")
 	flag.Parse()
-	fmt.Println("use conf", *configFile)
+	fmt.Println(" - 读取配置文件", *configFile)
 	config.LoadConfFromYaml(*configFile)
 	fmt.Println(" - 完成配置文件读取")
 
 	_ = logger.InitLogger()
+	fmt.Println(" - 完成配置日志")
 
 	_ = dao.InitDb(config.Conf.Basic.Env)
 	fmt.Println(" - 完成配置数据库")

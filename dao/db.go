@@ -51,7 +51,7 @@ func sqlite() error {
 func mysql() error {
 	var err error
 
-	connArgs := fmt.Sprintf("%s:%s@%s:%d/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	connArgs := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Conf.Mysql.User,
 		config.Conf.Mysql.Password,
 		config.Conf.Mysql.Host,
