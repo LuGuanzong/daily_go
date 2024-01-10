@@ -10,22 +10,22 @@ import (
 
 type Task struct{}
 
-// TaskDetail detail结构
+// TaskDetail detail切片的元素结构
 type TaskDetail struct {
 	Label string
 	Done  bool
 }
 
-// create 增加一条任务记录
-func (d Task) create(date time.Time, detail []TaskDetail, userid int) error {
-	detailJson, err := json.Marshal(detail)
+// Create 增加一条任务记录
+func (d Task) Create(date time.Time, detail []TaskDetail, userid int) error {
+	detailByte, err := json.Marshal(detail)
 	if err != nil {
 		return err
 	}
 
 	task := models.Task{
 		Date:   date,
-		Detail: string(detailJson),
+		Detail: detailByte,
 		Userid: userid,
 	}
 
@@ -37,8 +37,8 @@ func (d Task) create(date time.Time, detail []TaskDetail, userid int) error {
 	return nil
 }
 
-// readN 查询某一天开始之后，一共n天的任务
-func (d Task) readN(date time.Time, n, userid int) error {
+// ReadN 查询某一天开始之后，一共n天的任务
+func (d Task) ReadN(date time.Time, n, userid int) error {
 	if n < 1 {
 		return fmt.Errorf("readN 参数错误， n：%v", n)
 	}
@@ -61,8 +61,8 @@ func (d Task) readN(date time.Time, n, userid int) error {
 	return nil
 }
 
-// update 更新一条任务记录
-func (d Task) update(date time.Time, detail []TaskDetail, userid int) error {
+// Update 更新一条任务记录
+func (d Task) Update(date time.Time, detail []TaskDetail, userid int) error {
 	task := &models.Task{}
 
 	err := Db.Model(task).
@@ -74,13 +74,13 @@ func (d Task) update(date time.Time, detail []TaskDetail, userid int) error {
 		return err
 	}
 
-	detailJson, err := json.Marshal(detail)
+	detailByte, err := json.Marshal(detail)
 	if err != nil {
-		logger.Log.Errorf("update 序列化任务出错 userid:%v date:%v err:%v", userid, date, err.Error())
+		logger.Log.Errorf("update 序列化任务记录出错 userid:%v date:%v err:%v", userid, date, err.Error())
 		return err
 	}
 
-	task.Detail = string(detailJson)
+	task.Detail = detailByte
 	err = Db.Update(task).Error
 	if err != nil {
 		logger.Log.Errorf("update 更新数据库出错 userid:%v date:%v err:%v", userid, date, err.Error())

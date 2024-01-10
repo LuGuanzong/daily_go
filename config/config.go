@@ -13,7 +13,6 @@ func LoadConfFromYaml(filename string) {
 	fmt.Printf("开始读取配置文件 %s", filename)
 	file, err := os.Open(filename)
 	if err != nil {
-		// 打log
 		fmt.Printf("configFile:%s\n", err)
 		fmt.Printf("Load config [%s] err: %s\n", filename, err)
 		os.Exit(1)
@@ -23,7 +22,7 @@ func LoadConfFromYaml(filename string) {
 	decode := yaml.NewDecoder(file)
 	err = decode.Decode(&Conf)
 	if err != nil {
-		// 打log
+		fmt.Printf("yaml decode error, err:%s\n", err)
 		os.Exit(1)
 	}
 }
